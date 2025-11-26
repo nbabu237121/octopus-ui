@@ -1,0 +1,93 @@
+// OctopusDashboard.jsx
+import React, { useState } from "react";
+import "./OctopusDashboard.css";
+
+const projectsData = [
+  { id: 1, name: "OrdersFlow", type: "Camel-K", updated: "2 hours ago", status: "Running", deploy: "K8s Cluster" },
+  { id: 2, name: "FileToKafka", type: "SpringBoot", updated: "Yesterday", status: "Stopped", deploy: "OnPrem" },
+  { id: 3, name: "HRSync", type: "Camel-K", updated: "3 days ago", status: "Error", deploy: "AWS EKS" },
+  { id: 4, name: "BillingRoute", type: "SpringBoot", updated: "5 days ago", status: "Draft", deploy: "Local Docker" },
+];
+
+const statusColors = {
+  Running: "green",
+  Stopped: "yellow",
+  Error: "red",
+  Draft: "gray",
+};
+
+export default function OctopusDashboard() {
+  const [selected, setSelected] = useState([]);
+
+  const toggleSelect = (id) => {
+    setSelected(prev =>
+      prev.includes(id) ? prev.filter(sid => sid !== id) : [...prev, id]
+    );
+  };
+
+  return (
+    <div className="dashboard-container">
+      {/* Top Bar */}
+      <div className="top-bar">
+        <div className="logo">🐙 Octopus</div>
+        <div className="top-actions">
+          <button className="btn">Projects</button>
+          <button className="btn">Deployments</button>
+          <div className="profile">User</div>
+        </div>
+      </div>
+
+      {/* New Project Button */}
+      <div className="new-project">
+        <button className="btn btn-primary">+ New Project</button>
+      </div>
+
+      {/* Projects Table */}
+      <table className="projects-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Project Name</th>
+            <th>Type</th>
+            <th>Last Updated</th>
+            <th>Status</th>
+            <th>Deploy Target</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {projectsData.map(project => (
+            <tr
+              key={project.id}
+              className={selected.includes(project.id) ? "selected" : ""}
+              onClick={() => toggleSelect(project.id)}
+            >
+              <td>
+                <input
+                  type="checkbox"
+                  checked={selected.includes(project.id)}
+                  onChange={() => toggleSelect(project.id)}
+                />
+              </td>
+              <td>{project.name}</td>
+              <td>{project.type}</td>
+              <td>{project.updated}</td>
+              <td>
+                <span className={`status-badge ${statusColors[project.status]}`}>
+                  {project.status}
+                </span>
+              </td>
+              <td>{project.deploy}</td>
+              <td>
+                <button className="action-btn">⋮</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Footer */}
+      <div className="footer">Octopus v1.0 | Docs | Support</div>
+    </div>
+  );
+}
