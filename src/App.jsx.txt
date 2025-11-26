@@ -1,0 +1,26 @@
+import React, { useState } from "react";
+import Dashboard from "./components/Dashboard";
+import OctopusCanvas from "./components/OctopusCanvas";
+import ComponentPalette from "./components/ComponentPalette";
+import PropertiesPanel from "./components/PropertiesPanel";
+import TopBar from "./components/TopBar";
+import "./styles/App.css";
+
+export default function App() {
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [view, setView] = useState("dashboard"); // dashboard or canvas
+
+  return (
+    <div className="app-container">
+      <TopBar />
+      {view === "dashboard" && <Dashboard onOpenProject={() => setView("canvas")} />}
+      {view === "canvas" && (
+        <div className="canvas-layout">
+          <ComponentPalette />
+          <OctopusCanvas setSelectedNode={setSelectedNode} />
+          <PropertiesPanel selectedNode={selectedNode} />
+        </div>
+      )}
+    </div>
+  );
+}

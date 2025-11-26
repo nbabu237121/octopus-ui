@@ -1,0 +1,25 @@
+.properties-container {
+  width: 300px;
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-left: 1px solid #444;
+}
+
+.property-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.property-item label {
+  color: #00ffff;
+  margin-bottom: 3px;
+}
+
+.property-item input {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
